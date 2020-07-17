@@ -1,17 +1,20 @@
-// pwd ki theory likhi h app me pdhliyo
+
 
 const express= require('express')
 const bcrypt = require('bcryptjs')
 const router=express.Router()
 const mongoose=require('mongoose')
-
+const jwt=require('jsonwebtoken')
+const {JWT_SECRET}=require('../keys')
 const User=mongoose.model("User")
+const requireLogin=require('../middleware/requireLogin')
 
-
-
+router.get('/protected',requireLogin,(req,res)=>{
+    res.send("hello user")
+})
 
 router.post('/signup',(req,res)=>{
-    const {name,email,password,pic} = req.body
+    const {name,email,password} = req.body
     if(!email  || !password || !name){
         return res.status(422).json({error: "please fill all the fields"})
     }
@@ -25,8 +28,7 @@ router.post('/signup',(req,res)=>{
             const user=new User({
                 email,
                 password:hashedpassword,
-                name,
-                pic
+                name
             })
             user.save().then(user=>{
                 res.json({message:"saved successfully"})
@@ -44,7 +46,7 @@ router.post('/signup',(req,res)=>{
 })
 
 
-/*router.post('/signin',(req,res)=>{
+router.post('/signin',(req,res)=>{
     const {email,password}=req.body
     if(!email || !password){
         return res.status(422).json({error:"please fill email or password"})
@@ -53,15 +55,12 @@ router.post('/signup',(req,res)=>{
         if(!savedUser){
            return res.status(422).json({error:"Invalid email or password"})
         }
-        // aa dekh ethe aapa hun encrypted pwd nu aa compare krna
         bcrypt.compare(password,savedUser.password).then(domatch=>{
             if(domatch)
             {
-               // res.json({message:"login succesffully"})
-               // we are generating the token on user id and assigning it in id
                const token=jwt.sign({_id:savedUser._id},JWT_SECRET)
-               const {_id,name,email,followers,following,pic}=savedUser
-               res.json({token,user:{_id,name,email,followers,following,pic}})
+               const {_id,name,email}=savedUser
+               res.json({token,user:{_id,name,email}})
             }
             else
             {
@@ -72,7 +71,7 @@ router.post('/signup',(req,res)=>{
             console.log(err)
         })
     })
-})*/
+})
 
 
 
