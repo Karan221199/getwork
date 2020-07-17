@@ -1,0 +1,43 @@
+const express= require('express')
+const router=express.Router()
+const mongoose=require('mongoose')
+const Post= mongoose.model("Post")
+//const requireLogin= require('../middleware/requireLoginEmployer')
+const requireLoginEmployer = require('../middleware/requireLoginEmployer')
+
+
+
+
+
+router.post('/createpost',requireLoginEmployer,(req,res)=>{
+    const {title,body,jobdescription}=req.body
+    if(!title || !body || !jobdescription){
+        return res.status(422).json({error:"please add all the fields"})
+    }
+    //console.log(req.user)
+    //res.send("ok")
+    req.employer.password=undefined
+    console.log(req.employer)
+    const post=new Post({
+        title,
+        body,
+        jobdescription,
+        postedBy:req.employer
+        
+    })
+    post.save().then(result=>{
+        res.json({post:result})
+    })
+    .catch(err=>{
+        console.log(err)
+    })
+})
+
+
+
+
+
+
+
+
+module.exports=router
