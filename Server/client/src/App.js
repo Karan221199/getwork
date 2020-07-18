@@ -8,6 +8,7 @@ import UserSignup from './components/screens/UserSignup'
 import UserSignin from './components/screens/UserSignin'
 import EmployerSignin from './components/screens/EmployerSignin'
 import EmployerSignup from './components/screens/EmployerSignup'
+import  Createjob from './components/screens/Createjob'
 function App() {
   return (
     <BrowserRouter>
@@ -27,6 +28,9 @@ function App() {
     </Route>
     <Route path="/employersignin">
     <EmployerSignin />
+    </Route>
+    <Route path="/create">
+    <Createjob />
     </Route>
     </BrowserRouter>
   );

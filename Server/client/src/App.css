@@ -23,3 +23,12 @@ a{
   border-bottom: 1px solid rgb(8,93,252) !important;
   box-shadow: 0 1px 0 0  rgb(8,93,252) !important;
 }
+.home{
+  margin-top:30px ;
+}
+.home-card{
+  max-width: 700px;
+  margin: 10px auto; 
+ 
+  padding: 20px;
+}

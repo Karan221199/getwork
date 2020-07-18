@@ -2,11 +2,20 @@ const express= require('express')
 const router=express.Router()
 const mongoose=require('mongoose')
 const Post= mongoose.model("Post")
-
+const requireLogin=require('../middleware/requireLogin')
 const requireLoginEmployer = require('../middleware/requireLoginEmployer')
 
 
-
+router.get('/allpost',requireLogin,(req,res)=>{
+    Post.find().populate("postedBy","_id name")
+    .sort('-createdAt') //sorting in descending order
+    .then(posts=>{
+        res.json({posts})
+    })
+    .catch(err=>{
+        console.log(err)
+    })
+})
 
 
 router.post('/createpost',requireLoginEmployer,(req,res)=>{

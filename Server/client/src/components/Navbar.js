@@ -13,6 +13,7 @@ const Navbar = ()=>{
             <li><Link to="/signup">UserSignup</Link></li>
             <li><Link to="/employersignin">EmployerSignin</Link></li>
             <li><Link to="/employersignup">EmployerSignup</Link></li>
+            <li><Link to="/create">CreateJob</Link></li>
           </ul>
         </div>
       </nav>
