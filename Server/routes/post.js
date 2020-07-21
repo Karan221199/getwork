@@ -3,7 +3,7 @@ const router=express.Router()
 const mongoose=require('mongoose')
 const Post= mongoose.model("Post")
 const requireLogin=require('../middleware/requireLogin')
-const requireLoginEmployer = require('../middleware/requireLoginEmployer')
+
 
 
 router.get('/allpost',requireLogin,(req,res)=>{
@@ -18,7 +18,7 @@ router.get('/allpost',requireLogin,(req,res)=>{
 })
 
 
-router.post('/createpost',requireLoginEmployer,(req,res)=>{
+router.post('/createpost',requireLogin,(req,res)=>{
     const {title,body,jobdescription}=req.body
     if(!title || !body || !jobdescription){
         return res.status(422).json({error:"please add all the fields"})
@@ -41,7 +41,7 @@ router.post('/createpost',requireLoginEmployer,(req,res)=>{
     })
 })
 
-router.get('/mypost',requireLoginEmployer,(req,res)=>{
+router.get('/mypost',requireLogin,(req,res)=>{
     Post.find({postedBy:req.employer._id})
     .populate("postedBy","_id name")
     .then(mypost=>{
